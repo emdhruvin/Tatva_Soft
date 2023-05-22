@@ -1,21 +1,12 @@
 import "./App.css";
 import { Routes, Route, Outlet, Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import appStyle from "./AppStyle.module.css";
+import Button from "@mui/material/Button";
 
 function App() {
   return (
-    <div
-      style={{
-        backgroundColor: "#282c34",
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        gap: "2rem",
-        color: "#eee",
-        alignItems: "center",
-        padding: "2rem 0",
-      }}
-    >
+    <div className={appStyle.mainDiv}>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
@@ -34,59 +25,34 @@ function Layout() {
   return (
     <div style={{ width: "100%" }}>
       <nav>
-        <ul
+        <img
+          src={`${process.env.REACT_APP_URL}logo192.png`}
+          alt="react"
           style={{
-            display: "flex",
-            listStyle: "none",
-            justifyContent: "space-evenly",
-            width: "100%",
+            width: "48px",
+            position: "absolute",
+            top: "1.3rem",
+            left: "1.5rem",
           }}
-        >
+        />
+        <ul className={appStyle.navbarStyle}>
           <li>
-            <Link
-              style={{
-                color: "#eee",
-                textDecoration: "none",
-                fontWeight: "bold",
-              }}
-              to="/"
-            >
+            <Link className={appStyle.link} to="/">
               Home
             </Link>
           </li>
           <li>
-            <Link
-              style={{
-                color: "#eee",
-                textDecoration: "none",
-                fontWeight: "bold",
-              }}
-              to="/about"
-            >
+            <Link className={appStyle.link} to="/about">
               About
             </Link>
           </li>
           <li>
-            <Link
-              style={{
-                color: "#eee",
-                textDecoration: "none",
-                fontWeight: "bold",
-              }}
-              to="/dashboard"
-            >
+            <Link className={appStyle.link} to="/dashboard">
               Dashboard
             </Link>
           </li>
           <li>
-            <Link
-              style={{
-                color: "#eee",
-                textDecoration: "none",
-                fontWeight: "bold",
-              }}
-              to="/nothing-here"
-            >
+            <Link className={appStyle.link} to="/nothing-here">
               Nothing Here
             </Link>
           </li>
@@ -100,73 +66,31 @@ function Layout() {
 function Home() {
   const navigate = useNavigate();
   return (
-    <div
-      style={{
-        marginTop: "4rem",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: "1rem",
-      }}
-    >
-      <h2
-        style={{
-          fontFamily: "sans-serif",
-          fontSize: "1.625rem",
-          fontWeight: "bold",
-        }}
-      >
-        Home
-      </h2>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          gap: "1rem",
-        }}
-      >
-        <button
-          style={{
-            width: "145px",
-            padding: ".7em 1em",
-            borderRadius: "2rem",
-            fontSize: "1.1rem",
-            fontWeight: "bold",
-          }}
+    <div className={appStyle.containerDiv}>
+      <h2 className={appStyle.heading}>Home</h2>
+      <div className={appStyle.buttonContainer}>
+        <Button
+          className={appStyle.button}
+          variant="outlined"
           onClick={() => navigate("/about")}
         >
-          {" "}
           About
-        </button>
-        <button
-          style={{
-            width: "145px",
-            padding: ".7em 1em",
-            borderRadius: "2rem",
-            fontSize: "1.1rem",
-            fontWeight: "bold",
-          }}
+        </Button>
+
+        <Button
+          variant="outlined"
+          className={appStyle.button}
           onClick={() => navigate("/dashboard")}
         >
-          {" "}
           Dashboard
-        </button>
-        <button
-          style={{
-            width: "145px",
-            padding: ".7em 1em",
-            borderRadius: "2rem",
-            fontSize: "1.1rem",
-            fontWeight: "bold",
-            border: "0",
-            outline: "0",
-          }}
+        </Button>
+        <Button
+          variant="outlined"
+          className={appStyle.button}
           onClick={() => navigate("/nothing-here")}
         >
-          {" "}
           Nothing
-        </button>
+        </Button>
       </div>
     </div>
   );
@@ -175,71 +99,31 @@ function Home() {
 function About() {
   const navigate = useNavigate();
   return (
-    <div
-      style={{
-        marginTop: "4rem",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: "1rem",
-      }}
-    >
-      <h2
-        style={{
-          fontFamily: "sans-serif",
-          fontSize: "1.625rem",
-          fontWeight: "bold",
-        }}
-      >
-        About
-      </h2>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          gap: "1rem",
-        }}
-      >
-        <button
-          style={{
-            width: "145px",
-            padding: ".7em 1em",
-            borderRadius: "2rem",
-            fontSize: "1.1rem",
-            fontWeight: "bold",
-          }}
+    <div className={appStyle.containerDiv}>
+      <h2 className={appStyle.heading}>About</h2>
+      <div className={appStyle.buttonContainer}>
+        <Button
+          variant="outlined"
+          className={appStyle.button}
           onClick={() => navigate("/")}
         >
-          {" "}
           Home
-        </button>
-        <button
-          style={{
-            width: "145px",
-            padding: ".7em 1em",
-            borderRadius: "2rem",
-            fontSize: "1.1rem",
-            fontWeight: "bold",
-          }}
+        </Button>
+        <Button
+          variant="outlined"
+          className={appStyle.button}
           onClick={() => navigate("/dashboard")}
         >
-          {" "}
           Dashboard
-        </button>
-        <button
-          style={{
-            width: "145px",
-            padding: ".7em 1em",
-            borderRadius: "2rem",
-            fontSize: "1.1rem",
-            fontWeight: "bold",
-          }}
+        </Button>
+        <Button
+          variant="outlined"
+          className={appStyle.button}
           onClick={() => navigate("/nothing-here")}
         >
           {" "}
           Nothing
-        </button>
+        </Button>
       </div>
     </div>
   );
@@ -248,71 +132,32 @@ function About() {
 function Dashboard() {
   const navigate = useNavigate();
   return (
-    <div
-      style={{
-        marginTop: "4rem",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: "1rem",
-      }}
-    >
-      <h2
-        style={{
-          fontFamily: "sans-serif",
-          fontSize: "1.625rem",
-          fontWeight: "bold",
-        }}
-      >
-        Dashboard
-      </h2>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          gap: "1rem",
-        }}
-      >
-        <button
-          style={{
-            width: "145px",
-            padding: ".7em 1em",
-            borderRadius: "2rem",
-            fontSize: "1.1rem",
-            fontWeight: "bold",
-          }}
+    <div className={appStyle.containerDiv}>
+      <h2 className={appStyle.heading}>Dashboard</h2>
+      <div className={appStyle.buttonContainer}>
+        <Button
+          variant="outlined"
+          className={appStyle.button}
           onClick={() => navigate("/")}
         >
-          {" "}
           Home
-        </button>
-        <button
-          style={{
-            width: "145px",
-            padding: ".7em 1em",
-            borderRadius: "2rem",
-            fontSize: "1.1rem",
-            fontWeight: "bold",
-          }}
+        </Button>
+        <Button
+          variant="outlined"
+          className={appStyle.button}
           onClick={() => navigate("/about")}
         >
           {" "}
           About
-        </button>
-        <button
-          style={{
-            width: "145px",
-            padding: ".7em 1em",
-            borderRadius: "2rem",
-            fontSize: "1.1rem",
-            fontWeight: "bold",
-          }}
+        </Button>
+        <Button
+          variant="outlined"
+          className={appStyle.button}
           onClick={() => navigate("/nothing-here")}
         >
           {" "}
           Nothing
-        </button>
+        </Button>
       </div>
     </div>
   );
@@ -321,84 +166,39 @@ function Dashboard() {
 function NoMatch() {
   const navigate = useNavigate();
   return (
-    <div
-      style={{
-        marginTop: "4rem",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: "1rem",
-      }}
-    >
-      <h2
-        style={{
-          fontFamily: "sans-serif",
-          fontSize: "1.625rem",
-          fontWeight: "bold",
-        }}
-      >
-        Nothing to see here!
-      </h2>
-      <p>
-        <Link
-          style={{
-            color: "#eee",
-            textDecoration: "none",
-            fontWeight: "bold",
-          }}
-          to="/"
-        >
-          Go to the home page
-        </Link>
-      </p>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          gap: "1rem",
-        }}
-      >
-        <button
-          style={{
-            width: "145px",
-            padding: ".7em 1em",
-            borderRadius: "2rem",
-            fontSize: "1.1rem",
-            fontWeight: "bold",
-          }}
+    <div className={appStyle.containerDiv}>
+      <h2 className={appStyle.heading}>Nothing to see here!</h2>
+
+      <div className={appStyle.buttonContainer}>
+        <Button
+          variant="outlined"
+          className={appStyle.button}
           onClick={() => navigate("/")}
         >
-          {" "}
           Home
-        </button>
-        <button
-          style={{
-            width: "145px",
-            padding: ".7em 1em",
-            borderRadius: "2rem",
-            fontSize: "1.1rem",
-            fontWeight: "bold",
-          }}
+        </Button>
+        <Button
+          variant="outlined"
+          className={appStyle.button}
           onClick={() => navigate("/about")}
         >
           {" "}
           About
-        </button>
-        <button
-          style={{
-            width: "145px",
-            padding: ".7em 1em",
-            borderRadius: "2rem",
-            fontSize: "1.1rem",
-            fontWeight: "bold",
-          }}
+        </Button>
+        <Button
+          variant="outlined"
+          className={appStyle.button}
           onClick={() => navigate("/dashboard")}
         >
           {" "}
           Dashboard
-        </button>
+        </Button>
       </div>
+      <p>
+        <Link className={appStyle.link} to="/">
+          Go to the home page
+        </Link>
+      </p>
     </div>
   );
 }

@@ -3,15 +3,17 @@
   padding: 0;
   box-sizing: border-box;
 }
-button {
+/* button {
   transition: all 0.15s ease-in;
 }
 button:hover {
-  scale: 1.1;
-}
+  transform: translateY(-3px);
+} */
 
 ul li {
-  transition: all 0.15s ease-out;
+  transition: all 0.15s ease;
+  position: relative;
+  z-index: 4;
 }
 ul li:hover {
   scale: 1.2;
