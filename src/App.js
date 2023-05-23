@@ -1,8 +1,13 @@
 import "./App.css";
 import { Routes, Route, Outlet, Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+
 import appStyle from "./AppStyle.module.css";
-import Button from "@mui/material/Button";
+import { Button, TextField } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
+import Popover from "@mui/material/Popover";
+import Typography from "@mui/material/Typography";
 
 function App() {
   return (
@@ -22,6 +27,19 @@ function App() {
 export default App;
 
 function Layout() {
+  const navigate = useNavigate();
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const open = Boolean(anchorEl);
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <div style={{ width: "100%" }}>
       <nav>
@@ -57,7 +75,31 @@ function Layout() {
             </Link>
           </li>
         </ul>
+        <div className={appStyle.profile} onClick={handleClick}>
+          <Avatar sx={{ bgcolor: "white", color: "black" }}>DT</Avatar>
+          <p>Dhruvin Tandel</p>
+        </div>
       </nav>
+      <Popover
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+      >
+        <div
+          style={{
+            padding: ".5rem",
+          }}
+        >
+          <p style={{ margin: "0 0 10px 0", fontWeight: "bold" }}>Account</p>
+          <Button onClick={() => navigate("/about")} variant="contained">
+            Logout
+          </Button>
+        </div>
+      </Popover>
       <Outlet />
     </div>
   );
@@ -97,33 +139,45 @@ function Home() {
 }
 
 function About() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const navigate = useNavigate();
   return (
     <div className={appStyle.containerDiv}>
-      <h2 className={appStyle.heading}>About</h2>
-      <div className={appStyle.buttonContainer}>
-        <Button
+      <div className={appStyle.loginCon}>
+        <div className={appStyle.loginHead}>
+          <p>Login</p>
+          <div className={appStyle.line}></div>
+        </div>
+        <TextField
+          label="Email"
           variant="outlined"
-          className={appStyle.button}
-          onClick={() => navigate("/")}
-        >
-          Home
-        </Button>
-        <Button
+          type="text"
+          sx={{ width: "80%" }}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <TextField
+          label="Password"
           variant="outlined"
-          className={appStyle.button}
-          onClick={() => navigate("/dashboard")}
-        >
-          Dashboard
-        </Button>
-        <Button
-          variant="outlined"
-          className={appStyle.button}
-          onClick={() => navigate("/nothing-here")}
-        >
-          {" "}
-          Nothing
-        </Button>
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          sx={{ width: "80%" }}
+        />
+        <div className={appStyle.loginButton}>
+          <Button
+            onClick={() => {
+              navigate("/");
+              console.log({ email });
+              console.log({ password });
+            }}
+            variant="contained"
+          >
+            Login
+          </Button>
+        </div>
       </div>
     </div>
   );
