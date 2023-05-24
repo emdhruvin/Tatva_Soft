@@ -7,7 +7,9 @@ import appStyle from "./AppStyle.module.css";
 import { Button, TextField } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Popover from "@mui/material/Popover";
-import Typography from "@mui/material/Typography";
+
+import { Formik } from "formik";
+import * as Yup from "yup";
 
 function App() {
   return (
@@ -139,10 +141,30 @@ function Home() {
 }
 
 function About() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
 
-  const navigate = useNavigate();
+  const initialValues = {
+    email: "",
+    password: "",
+  };
+
+  const validationSchema = Yup.object().shape({
+    email: Yup.string().email(),
+    password: Yup.string()
+      .min(8, "minimum pass length is 8")
+      .matches(/[0-9]/, "pass must contain a number")
+      .matches(/[a-z]/, "pass must contain a lowercase letter")
+      .matches(/[A-Z]/, "pass must contain a uppercase letter")
+      .matches(/[^\w]/, "Password requires a symbol"),
+  });
+
+  const onFormSubmit = (values) => {
+    console.log("on form submit: ", values);
+    alert("Form Submmited");
+  };
+
+  // const navigate = useNavigate();
   return (
     <div className={appStyle.containerDiv}>
       <div className={appStyle.loginCon}>
@@ -150,34 +172,85 @@ function About() {
           <p>Login</p>
           <div className={appStyle.line}></div>
         </div>
-        <TextField
-          label="Email"
-          variant="outlined"
-          type="text"
-          sx={{ width: "80%" }}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <TextField
-          label="Password"
-          variant="outlined"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          sx={{ width: "80%" }}
-        />
-        <div className={appStyle.loginButton}>
-          <Button
-            onClick={() => {
-              navigate("/");
-              console.log({ email });
-              console.log({ password });
-            }}
-            variant="contained"
-          >
-            Login
-          </Button>
-        </div>
+        <Formik
+          initialValues={initialValues}
+          onSubmit={onFormSubmit}
+          validationSchema={validationSchema}
+        >
+          {({
+            value,
+            errors,
+            touched,
+            handleChange,
+            handleSubmit,
+            handleBlur,
+            isSubmitting,
+          }) => (
+            <form className={appStyle.form} onSubmit={handleSubmit}>
+              <TextField
+                error={!!errors.email}
+                required
+                id="email"
+                name="email"
+                label="Email"
+                variant="outlined"
+                type="text"
+                sx={{ width: "80%" }}
+                // value={email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              {touched.email && (
+                <span
+                  style={{
+                    color: "red",
+                    display: "flex",
+                    justifyContent: "flex-",
+                    width: "80%",
+                    marginTop: "-.5rem",
+                  }}
+                >
+                  {errors.email}
+                </span>
+              )}
+              <TextField
+                error={!!errors.password}
+                required
+                id="password"
+                name="password"
+                label="Password"
+                variant="outlined"
+                type="password"
+                // value={password}
+                onChange={handleChange}
+                sx={{ width: "80%" }}
+                onBlur={handleBlur}
+              />
+              {touched.password && (
+                <span
+                  style={{
+                    color: "red",
+                    display: "flex",
+                    justifyContent: "flex-",
+                    width: "80%",
+                    marginTop: "-.5rem",
+                  }}
+                >
+                  {errors.password}
+                </span>
+              )}
+              <div className={appStyle.loginButton}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  disabled={isSubmitting}
+                >
+                  Login
+                </Button>
+              </div>
+            </form>
+          )}
+        </Formik>
       </div>
     </div>
   );
