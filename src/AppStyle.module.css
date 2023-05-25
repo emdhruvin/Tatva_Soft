@@ -8,10 +8,9 @@
 
 .mainDiv {
   background-color: #282c34;
-  height: 100vh;
-
+  height: 100%;
   color: #eee;
-  align-items: center;
+  /* align-items: center; */
   padding: 2rem 0;
 }
 
@@ -22,6 +21,7 @@
 }
 
 .containerDiv {
+  /* height: 100%; */
   margin-top: 4rem;
   display: flex;
   flex-direction: column;
@@ -63,6 +63,7 @@
   flex-direction: column;
   gap: 0.8rem;
   align-items: center;
+  transition: all 0.3s ease;
   /* height: 6rem; */
 }
 .loginHead {
@@ -81,9 +82,9 @@
   background: black;
   /* background-color: black; */
   /* color: black; */
-  margin: 1rem 0;
+  margin: 1rem 2rem 1rem 0;
   transform: translateY(2px);
-  /* flex: 1; */
+  flex: 1;
 }
 .loginButton {
   width: 100%;
@@ -109,4 +110,15 @@
   flex-direction: column;
   gap: 0.8rem;
   align-items: center;
+}
+.loginReg {
+  width: 40%;
+  display: flex;
+  justify-content: space-between;
+  gap: 1.2rem;
+}
+.loginRegBtn {
+  color: white !important;
+  border-color: white !important;
+  flex: 1;
 }
