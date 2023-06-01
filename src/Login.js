@@ -1,16 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import appStyle from "./AppStyle.module.css";
-import { Button, TextField, Snackbar, Alert } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Button, TextField } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 
 import { Formik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { useAuth } from "./AuthContext";
 
+import { toast } from "react-toastify";
+
 function Login() {
+  const navigate = useNavigate();
   const { setIsLoggedIn, setUser } = useAuth();
-  const [isSucess, setIsSuccess] = useState(false);
 
   const LOGIN_END_POINT = "api/user/login";
   // { dataPass }
@@ -45,56 +47,43 @@ function Login() {
         if (res.data.code === 200) {
           setIsLoggedIn(true);
           setUser(res.data.result);
-          setIsSuccess(true);
-          setOpenSuc(true);
-        } else {
-          setUser(null);
-          setIsLoggedIn(false);
-          setIsSuccess(false);
-          setOpenSuc(true);
+          toast.success("LoggedIn Successfully", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+          navigate("/", { state: { data: data } });
         }
       })
-      .catch((err) => console.log(err));
-    // console.log(`${process.env.BASE_URL}${LOGIN_END_POINT}`);
-    // const res = await axios.post(
-    //   `https://book-e-sell-node-api.vercel.app/${LOGIN_END_POINT}`,
-    //   requstData
-    // );
-    // if (res.status === 200) {
-    //   setOpenSuc(true);
-    // }
-    // if (res.status === 401) {
-    //   setOpenInvalid(true);
-    // }
-    // console.log(res);
+      .catch((err) => {
+        console.log(err);
+        setUser(null);
+        setIsLoggedIn(false);
+        toast.error("Invalid Credential", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      });
   };
 
-  // const [data, setData] = useState();
-  // useEffect(() => {
-  //   axios.get("https://jsonplaceholder.typicode.com/posts").then((res) => {
-  //     console.log(res);
-  //     setData(res.data);
-  //     // dataPass(res.data);
-  //   });
-  // }, []);
-
-  const [openSuc, setOpenSuc] = useState(false);
-  const handleCloseSuc = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpenSuc(false);
-  };
-
-  // const [openInvalid, setOpenInvalid] = useState(false);
-  // const handleCloseErr = (event, reason) => {
-  //   if (reason === "clickaway") {
-  //     return;
-  //   }
-  //   setOpenInvalid(false);
-  // };
-  const vertical = "top";
-  const horizontal = "right";
+  const [data, setData] = useState();
+  useEffect(() => {
+    axios.get("https://jsonplaceholder.typicode.com/posts").then((res) => {
+      console.log(res);
+      setData(res.data.slice(50));
+    });
+  }, []);
 
   return (
     <>
@@ -106,8 +95,6 @@ function Login() {
           marginTop: "4rem",
           gap: "1rem",
           flex: "1",
-          // height: "100vh",
-          // overflow: "hidden",
         }}
       >
         <div className={appStyle.loginCon}>
@@ -189,36 +176,6 @@ function Login() {
                     Login
                   </Button>
                 </div>
-                <Snackbar
-                  className={appStyle.snakeBar}
-                  anchorOrigin={{ vertical, horizontal }}
-                  open={openSuc}
-                  autoHideDuration={1500}
-                  onClose={handleCloseSuc}
-                >
-                  <Alert
-                    onClose={handleCloseSuc}
-                    severity={isSucess ? "success" : "error"}
-                    sx={{ width: "100%" }}
-                  >
-                    {isSucess ? "Login Success" : "Invalid Credential"}
-                  </Alert>
-                </Snackbar>
-                {/* <Snackbar
-                  className={appStyle.snakeBar}
-                  anchorOrigin={{ vertical, horizontal }}
-                  open={openInvalid}
-                  autoHideDuration={3000}
-                  onClose={handleCloseErr}
-                >
-                  <Alert
-                    onClose={handleCloseErr}
-                    severity="error"
-                    sx={{ width: "100%" }}
-                  >
-                    Invalid email or password
-                  </Alert>
-                </Snackbar> */}
               </form>
             )}
           </Formik>

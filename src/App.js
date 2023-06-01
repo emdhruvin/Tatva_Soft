@@ -10,6 +10,8 @@ import Login from "./Login";
 import Register from "./Register";
 import appStyle from "./AppStyle.module.css";
 import { useAuth } from "./AuthContext";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const { isLoggedIn } = useAuth();
@@ -17,6 +19,7 @@ function App() {
     <div className={appStyle.mainDiv}>
       <Layout />
 
+      <ToastContainer />
       <Routes>
         <Route path="login" element={isLoggedIn ? <Home /> : <Login />} />
         <Route path="register" element={isLoggedIn ? <Home /> : <Register />} />
