@@ -10,11 +10,8 @@ button:hover {
   transform: translateY(-3px);
 } */
 
-ul li {
+/* ul li {
   transition: all 0.15s ease;
   position: relative;
   z-index: 4;
-}
-ul li:hover {
-  scale: 1.2;
-}
+} */

@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import appStyle from "./AppStyle.module.css";
 import { Button, TextField } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,11 +8,22 @@ import axios from "axios";
 import { useAuth } from "./AuthContext";
 
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 function Login() {
   const navigate = useNavigate();
   const { setIsLoggedIn, setUser } = useAuth();
 
+  useEffect(() => {
+    let data = JSON.parse(localStorage.getItem("loginInfo"));
+    if (data) {
+      let values = {
+        email: data.email,
+        password: data.password,
+      };
+      onFormSubmit(values);
+    }
+  }, []);
   const LOGIN_END_POINT = "api/user/login";
   // { dataPass }
   const initialValues = {
@@ -33,20 +43,21 @@ function Login() {
   });
   const onFormSubmit = async (values) => {
     console.log("on form submit: ", values);
-    const requstData = {
+    const requestData = {
       email: values.email,
       password: values.password,
     };
     await axios
       .post(
         `https://book-e-sell-node-api.vercel.app/${LOGIN_END_POINT}`,
-        requstData
+        requestData
       )
       .then((res) => {
-        console.log(res);
         if (res.data.code === 200) {
           setIsLoggedIn(true);
           setUser(res.data.result);
+          localStorage.setItem("loginInfo", JSON.stringify(res.data.result));
+          localStorage.setItem("isLoggedIn", "true");
           toast.success("LoggedIn Successfully", {
             position: "top-right",
             autoClose: 3000,
@@ -57,7 +68,7 @@ function Login() {
             progress: undefined,
             theme: "colored",
           });
-          navigate("/", { state: { data: data } });
+          navigate("/");
         }
       })
       .catch((err) => {
@@ -76,14 +87,6 @@ function Login() {
         });
       });
   };
-
-  const [data, setData] = useState();
-  useEffect(() => {
-    axios.get("https://jsonplaceholder.typicode.com/posts").then((res) => {
-      console.log(res);
-      setData(res.data.slice(50));
-    });
-  }, []);
 
   return (
     <>

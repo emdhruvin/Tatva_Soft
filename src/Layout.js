@@ -85,6 +85,7 @@ function Layout() {
                 onClick={() => {
                   setUser(null);
                   setIsLoggedIn(false);
+                  localStorage.clear();
                   navigate("/login");
                 }}
                 variant="contained"
@@ -123,66 +124,6 @@ function Layout() {
           </nav>
         </div>
       )}
-      {/* <div style={{ width: "100%" }}>
-        <nav>
-          <img
-            src={`${process.env.REACT_APP_URL}logo192.png`}
-            alt="react"
-            style={{
-              width: "48px",
-              position: "absolute",
-              top: "1.3rem",
-              left: "1.5rem",
-            }}
-          />
-          <ul className={appStyle.navbarStyle}>
-            <li>
-              <Link className={appStyle.link} to="/">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link className={appStyle.link} to="/about">
-                About
-              </Link>
-            </li>
-            <li>
-              <Link className={appStyle.link} to="/dashboard">
-                Dashboard
-              </Link>
-            </li>
-            <li>
-              <Link className={appStyle.link} to="/nothing-here">
-                Nothing Here
-              </Link>
-            </li>
-          </ul>
-          <div className={appStyle.profile} onClick={handleClick}>
-            <Avatar sx={{ bgcolor: "white", color: "black" }}>DT</Avatar>
-            <p>Dhruvin Tandel</p>
-          </div>
-        </nav>
-        <Popover
-          open={open}
-          anchorEl={anchorEl}
-          onClose={handleClose}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "center",
-          }}
-        >
-          <div
-            style={{
-              padding: ".5rem",
-            }}
-          >
-            <p style={{ margin: "0 0 10px 0", fontWeight: "bold" }}>Account</p>
-            <Button onClick={() => navigate("/about")} variant="contained">
-              Logout
-            </Button>
-          </div>
-        </Popover>
-      </div> */}
     </>
   );
 }

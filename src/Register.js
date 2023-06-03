@@ -1,5 +1,6 @@
 import appStyle from "./AppStyle.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
   Button,
   TextField,
@@ -11,8 +12,11 @@ import {
 
 import { Formik } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
 
 function Register() {
+  const navigate = useNavigate();
+
   const initialValues = {
     firstName: "",
     lastName: "",
@@ -43,10 +47,55 @@ function Register() {
       .oneOf([Yup.ref("password"), null], "Passwords must match"),
   });
 
-  const onFormSubmit = (values) => {
+  const REGISTER_END_POINT = "api/user";
+  const onFormSubmit = async (values) => {
     console.log("on form submit: ", values);
-    console.log(values.role);
-    alert("Form Submmited");
+    let requestedData = {
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email: values.email,
+      password: values.password,
+    };
+    if (values.role === "buyer") {
+      requestedData.roleId = 3;
+    } else if (values.role === "seller") {
+      requestedData.roleId = 2;
+    }
+    console.log(requestedData);
+    await axios
+      .post(
+        `https://book-e-sell-node-api.vercel.app/${REGISTER_END_POINT}`,
+        requestedData
+      )
+      .then((res) => {
+        if (res.data.code === 200) {
+          console.log(res);
+          toast.success("Registered Successfully", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+          navigate("/");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(`${err.response.data.error}`, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      });
   };
   return (
     <>
@@ -131,7 +180,7 @@ function Register() {
                   </span>
                 )}
                 <FormControl sx={{ width: "80%" }} error={!!errors.role}>
-                  <InputLabel id="role">Age</InputLabel>
+                  <InputLabel id="role">Role</InputLabel>
                   <Select
                     name="role"
                     labelId="role"
@@ -141,8 +190,8 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.role}
                   >
-                    <MenuItem value="Buyer">Buyer</MenuItem>
-                    <MenuItem value="Seller">Seller</MenuItem>
+                    <MenuItem value="buyer">Buyer</MenuItem>
+                    <MenuItem value="seller">Seller</MenuItem>
                   </Select>
                 </FormControl>
                 {touched.role && (

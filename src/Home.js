@@ -1,13 +1,23 @@
-import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import appStyle from "./AppStyle.module.css";
 import { Button } from "@mui/material";
+import axios from "axios";
 
 import DisplayCard from "./DisplayCard";
 function Home() {
   const navigate = useNavigate();
-  const location = useLocation();
-  const [dData, setDData] = useState(location.state.data);
+  const [dData, setDData] = useState();
+
+  const ALL_BOOK_END_POINT = "api/book/all";
+  useEffect(() => {
+    axios
+      .get(`https://book-e-sell-node-api.vercel.app/${ALL_BOOK_END_POINT}`)
+      .then((res) => {
+        console.log(res);
+        setDData(res.data.result);
+      });
+  }, []);
   return (
     <div className={appStyle.containerDiv}>
       <h2 className={appStyle.heading}>Home</h2>
@@ -35,20 +45,27 @@ function Home() {
           Nothing
         </Button>
       </div>
+
       <div
         style={{
           width: "100%",
           marginTop: "1rem",
           padding: "0 1rem",
           display: "grid",
-          gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 1fr",
-          gap: "1.2rem",
-          flexWrap: "wrap",
+          rowGap: "2rem",
+          gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr",
+          // gap: "1.1rem",
         }}
       >
-        {dData.map((item) => (
-          <DisplayCard data={item} />
-        ))}
+        {dData ? (
+          dData.map((item, i) => (
+            <div key={i}>
+              <DisplayCard idx={i} data={item} />
+            </div>
+          ))
+        ) : (
+          <div>no Data</div>
+        )}
       </div>
     </div>
   );
