@@ -48,8 +48,8 @@ function Layout() {
                 </Link>
               </li>
               <li>
-                <Link className={appStyle.link} to="/dashboard">
-                  Dashboard
+                <Link className={appStyle.link} to="/cart">
+                  Cart
                 </Link>
               </li>
               <li>
@@ -85,7 +85,8 @@ function Layout() {
                 onClick={() => {
                   setUser(null);
                   setIsLoggedIn(false);
-                  localStorage.clear();
+                  localStorage.removeItem("loginInfo");
+                  localStorage.removeItem("isLoggedIn");
                   navigate("/login");
                 }}
                 variant="contained"

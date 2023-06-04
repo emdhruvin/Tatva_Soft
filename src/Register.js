@@ -106,6 +106,7 @@ function Register() {
           gap: "1rem",
           alignItems: "center",
           marginTop: "4rem",
+          paddingBottom: "2rem",
           // height: "100%",
         }}
       >

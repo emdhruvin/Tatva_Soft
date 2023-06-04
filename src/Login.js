@@ -53,6 +53,7 @@ function Login() {
         requestData
       )
       .then((res) => {
+        console.log("login sub", res);
         if (res.data.code === 200) {
           setIsLoggedIn(true);
           setUser(res.data.result);
@@ -73,18 +74,32 @@ function Login() {
       })
       .catch((err) => {
         console.log(err);
+        if (err.code === "ERR_NETWORK") {
+          toast.error("Check your Internet", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+        }
+        if (err.code === "ERR_BAD_REQUEST") {
+          toast.error(`${err.response.data.error}`, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+        }
         setUser(null);
         setIsLoggedIn(false);
-        toast.error("Invalid Credential", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
       });
   };
 

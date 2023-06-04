@@ -4,7 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import Layout from "./Layout";
 import Home from "./Home";
 import About from "./About";
-import Dashboard from "./Dashboard";
+import Cart from "./Cart";
 import NoMatch from "./NoMatch";
 import Login from "./Login";
 import Register from "./Register";
@@ -25,10 +25,7 @@ function App() {
         <Route path="register" element={isLoggedIn ? <Home /> : <Register />} />
         <Route path="/" element={isLoggedIn ? <Home /> : <Login />} />
         <Route path="about" element={isLoggedIn ? <About /> : <Login />} />
-        <Route
-          path="dashboard"
-          element={isLoggedIn ? <Dashboard /> : <Login />}
-        />
+        <Route path="cart" element={isLoggedIn ? <Cart /> : <Login />} />
         <Route path="*" element={isLoggedIn ? <NoMatch /> : <Login />} />
         {/* </Route> */}
       </Routes>

@@ -10,13 +10,22 @@ function Home() {
   const [dData, setDData] = useState();
 
   const ALL_BOOK_END_POINT = "api/book/all";
-  useEffect(() => {
-    axios
+
+  const getData = async () => {
+    await axios
       .get(`https://book-e-sell-node-api.vercel.app/${ALL_BOOK_END_POINT}`)
       .then((res) => {
-        console.log(res);
-        setDData(res.data.result);
+        if (res.status === 200) {
+          setDData(res.data.result);
+          console.log(dData);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
       });
+  };
+  useEffect(() => {
+    getData();
   }, []);
   return (
     <div className={appStyle.containerDiv}>
@@ -33,9 +42,9 @@ function Home() {
         <Button
           variant="outlined"
           className={appStyle.button}
-          onClick={() => navigate("/dashboard")}
+          onClick={() => navigate("/cart")}
         >
-          Dashboard
+          Cart
         </Button>
         <Button
           variant="outlined"
