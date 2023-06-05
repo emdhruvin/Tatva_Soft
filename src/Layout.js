@@ -43,18 +43,13 @@ function Layout() {
                 </Link>
               </li>
               <li>
-                <Link className={appStyle.link} to="/about">
-                  About
-                </Link>
-              </li>
-              <li>
                 <Link className={appStyle.link} to="/cart">
                   Cart
                 </Link>
               </li>
               <li>
-                <Link className={appStyle.link} to="/nothing-here">
-                  Nothing Here
+                <Link className={appStyle.link} to="/profile">
+                  Update Profile
                 </Link>
               </li>
             </ul>

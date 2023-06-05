@@ -32,7 +32,7 @@ function Register() {
       .min(3, "name must be of atleast 3 character"),
     lastName: Yup.string()
       .required("Last name cannot be empty")
-      .min(3, "name must be of atleast 3 character"),
+      .min(3, "Last Name must be of atleast 3 character"),
     role: Yup.string().required("role cannot be empty"),
     email: Yup.string().required("email cannot be empty").email(),
     password: Yup.string()
@@ -147,7 +147,7 @@ function Register() {
                     style={{
                       color: "red",
                       display: "flex",
-                      justifyContent: "flex-",
+                      justifyContent: "flex-start",
                       width: "80%",
                       marginTop: "-.5rem",
                     }}
@@ -172,7 +172,7 @@ function Register() {
                     style={{
                       color: "red",
                       display: "flex",
-                      justifyContent: "flex-",
+                      justifyContent: "flex-start",
                       width: "80%",
                       marginTop: "-.5rem",
                     }}
@@ -200,7 +200,7 @@ function Register() {
                     style={{
                       color: "red",
                       display: "flex",
-                      justifyContent: "flex-",
+                      justifyContent: "flex-start",
                       width: "80%",
                       marginTop: "-.5rem",
                     }}
@@ -225,7 +225,7 @@ function Register() {
                     style={{
                       color: "red",
                       display: "flex",
-                      justifyContent: "flex-",
+                      justifyContent: "flex-start",
                       width: "80%",
                       marginTop: "-.5rem",
                     }}
@@ -250,7 +250,7 @@ function Register() {
                     style={{
                       color: "red",
                       display: "flex",
-                      justifyContent: "flex-",
+                      justifyContent: "flex-start",
                       width: "80%",
                       marginTop: "-.5rem",
                     }}
@@ -275,7 +275,7 @@ function Register() {
                     style={{
                       color: "red",
                       display: "flex",
-                      justifyContent: "flex-",
+                      justifyContent: "flex-start",
                       width: "80%",
                       marginTop: "-.5rem",
                     }}

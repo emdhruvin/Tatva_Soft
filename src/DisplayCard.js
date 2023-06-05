@@ -20,7 +20,20 @@ const DisplayCard = ({ data, idx }) => {
         `https://book-e-sell-node-api.vercel.app/${CART_POST_END_POINT}`,
         requestedData
       )
-      .then((res) => console.log(res))
+      .then((res) => {
+        if (res.data.code === 200) {
+          toast.success("Book added to cart", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+        }
+      })
       .catch((err) => {
         toast.warn(`${err.response.data.error}`, {
           position: "top-right",

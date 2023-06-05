@@ -17,7 +17,6 @@ function Home() {
       .then((res) => {
         if (res.status === 200) {
           setDData(res.data.result);
-          console.log(dData);
         }
       })
       .catch((err) => {

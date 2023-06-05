@@ -8,6 +8,7 @@ import Cart from "./Cart";
 import NoMatch from "./NoMatch";
 import Login from "./Login";
 import Register from "./Register";
+import Profile from "./Profile";
 import appStyle from "./AppStyle.module.css";
 import { useAuth } from "./AuthContext";
 import { ToastContainer } from "react-toastify";
@@ -21,6 +22,7 @@ function App() {
 
       <ToastContainer />
       <Routes>
+        <Route path="profile" element={isLoggedIn ? <Profile /> : <Login />} />
         <Route path="login" element={isLoggedIn ? <Home /> : <Login />} />
         <Route path="register" element={isLoggedIn ? <Home /> : <Register />} />
         <Route path="/" element={isLoggedIn ? <Home /> : <Login />} />
