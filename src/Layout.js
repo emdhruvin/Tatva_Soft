@@ -42,6 +42,15 @@ function Layout() {
                   Home
                 </Link>
               </li>
+              {user.roleId === 2 ? (
+                <li>
+                  <Link className={appStyle.link} to="/book">
+                    Book
+                  </Link>
+                </li>
+              ) : (
+                <></>
+              )}
               <li>
                 <Link className={appStyle.link} to="/cart">
                   Cart

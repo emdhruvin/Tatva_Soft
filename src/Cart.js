@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import appStyle from "./AppStyle.module.css";
 import axios from "axios";
 import { useAuth } from "./AuthContext";
-import SingleBook from "./SingleBook";
+import SingleCartBook from "./SingleCartBook";
 import { toast } from "react-toastify";
 
 function Cart() {
@@ -268,7 +268,7 @@ function Cart() {
                 borderRadius: ".5rem",
               }}
             >
-              <SingleBook
+              <SingleCartBook
                 onUpdate={handleUpdate}
                 onDelete={handleDelete}
                 index={i}

@@ -97,6 +97,8 @@ function Login() {
             progress: undefined,
             theme: "colored",
           });
+          localStorage.removeItem("loginInfo");
+          localStorage.removeItem("isLoggedIn");
         }
         setUser(null);
         setIsLoggedIn(false);

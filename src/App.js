@@ -9,13 +9,14 @@ import NoMatch from "./NoMatch";
 import Login from "./Login";
 import Register from "./Register";
 import Profile from "./Profile";
+import Book from "./Book";
 import appStyle from "./AppStyle.module.css";
 import { useAuth } from "./AuthContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, user } = useAuth();
   return (
     <div className={appStyle.mainDiv}>
       <Layout />
@@ -29,6 +30,18 @@ function App() {
         <Route path="about" element={isLoggedIn ? <About /> : <Login />} />
         <Route path="cart" element={isLoggedIn ? <Cart /> : <Login />} />
         <Route path="*" element={isLoggedIn ? <NoMatch /> : <Login />} />
+        <Route
+          path="/book"
+          element={
+            isLoggedIn && user.roleId === 2 ? (
+              <Book />
+            ) : isLoggedIn && user.roleId === 3 ? (
+              <Home />
+            ) : (
+              <Login />
+            )
+          }
+        />
         {/* </Route> */}
       </Routes>
     </div>

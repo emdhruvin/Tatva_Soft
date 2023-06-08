@@ -193,3 +193,52 @@
   row-gap: 1rem;
   margin-top: 1.5rem;
 }
+.bookEditBtn {
+  width: 40%;
+  border: 1px solid;
+  outline: 0;
+  padding: 0.3rem 0;
+  background-color: transparent;
+  border-radius: 0.35rem;
+  color: rgb(26, 184, 26);
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.bookEditBtn:hover {
+  background: rgb(26, 184, 26);
+  border: 0;
+  color: white;
+}
+.bookDeleteBtn {
+  width: 40%;
+  border: 1px solid;
+  outline: 0;
+  padding: 0.3rem 0;
+  background-color: transparent;
+  border-radius: 0.35rem;
+  font-weight: bold;
+  color: rgb(212, 17, 17);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.bookDeleteBtn:hover {
+  background: rgb(212, 17, 17);
+  border: 0;
+  color: white;
+}
+.dialog_container {
+  z-index: 100;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  overflow: visible;
+}

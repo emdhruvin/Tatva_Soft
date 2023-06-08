@@ -1,6 +1,7 @@
+import appStyle from "./AppStyle.module.css";
 import React from "react";
 
-const SingleBook = ({ onUpdate, onDelete, data, index }) => {
+const SingleBook = ({ onUpdate, onDelete, index, data }) => {
   return (
     <div
       style={{
@@ -11,75 +12,27 @@ const SingleBook = ({ onUpdate, onDelete, data, index }) => {
       }}
     >
       <div style={{ flex: "1" }}>{index + 1}</div>
-      <div style={{ flex: "1" }}>{data.book.name}</div>
-      <div style={{ flex: "1" }}>{data.book.price * data.quantity}₹</div>
+      <div style={{ flex: "1" }}>{data.name}</div>
+      <div style={{ flex: "1" }}>{data.price}₹</div>
+      <div style={{ flex: "1" }}>{data.category}</div>
       <div style={{ display: "flex", gap: "1rem", flex: "1" }}>
-        <div
-          style={{
-            fontWeight: "bold",
-            fontSize: "1.1rem",
-            height: "1.5rem",
-            width: "1.5rem",
-            background: "#000",
-            color: "#fff",
-            borderRadius: "50%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            cursor: "pointer",
-          }}
+        <button
+          className={appStyle.bookEditBtn}
           onClick={() => {
-            if (data.quantity === 1) {
-              alert("Minimum 1 book required");
-            } else {
-              onUpdate(data.id, data.book.id, data.quantity, "dec");
-            }
+            onUpdate(data);
           }}
         >
-          <p style={{ transform: "translateY(-2px)" }}> -</p>
-        </div>
-        <div>{data.quantity}</div>
-        <div
-          style={{
-            height: "1.5rem",
-            width: "1.5rem",
-            background: "#000",
-            color: "#fff",
-            borderRadius: "50%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            cursor: "pointer",
-          }}
+          Edit
+        </button>
+        <button
+          className={appStyle.bookDeleteBtn}
           onClick={() => {
-            if (data.quantity === 10) {
-              alert("Max 10 can be ordered");
-            } else {
-              onUpdate(data.id, data.book.id, data.quantity, "inc");
-            }
+            onDelete(data.id);
           }}
         >
-          <p style={{ transform: "translateY(-2.5px)" }}> + </p>
-        </div>
+          Delete
+        </button>
       </div>
-      <button
-        style={{
-          height: "1.5rem",
-          padding: "0 1rem",
-          border: "0",
-          outline: "0",
-          background: "#ff0500",
-          color: "white",
-          fontWeight: "700",
-          borderRadius: ".3rem",
-          cursor: "pointer",
-        }}
-        onClick={() => {
-          onDelete(data.id);
-        }}
-      >
-        Delete
-      </button>
     </div>
   );
 };
