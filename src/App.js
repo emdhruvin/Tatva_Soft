@@ -11,31 +11,39 @@ import Register from "./Register";
 import Profile from "./Profile";
 import Book from "./Book";
 import appStyle from "./AppStyle.module.css";
-import { useAuth } from "./AuthContext";
+// import { useAuth } from "./AuthContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from "react-redux";
 
 function App() {
-  const { isLoggedIn, user } = useAuth();
+  const _isLogin = useSelector((state) => {
+    return state.isLogin;
+  });
+  const _user = useSelector((state) => {
+    return state.users;
+  });
+  // const { isLoggedIn, user } = useAuth();
+  console.log(_user, _isLogin);
   return (
     <div className={appStyle.mainDiv}>
       <Layout />
 
       <ToastContainer />
       <Routes>
-        <Route path="profile" element={isLoggedIn ? <Profile /> : <Login />} />
-        <Route path="login" element={isLoggedIn ? <Home /> : <Login />} />
-        <Route path="register" element={isLoggedIn ? <Home /> : <Register />} />
-        <Route path="/" element={isLoggedIn ? <Home /> : <Login />} />
-        <Route path="about" element={isLoggedIn ? <About /> : <Login />} />
-        <Route path="cart" element={isLoggedIn ? <Cart /> : <Login />} />
-        <Route path="*" element={isLoggedIn ? <NoMatch /> : <Login />} />
+        <Route path="profile" element={_isLogin ? <Profile /> : <Login />} />
+        <Route path="login" element={_isLogin ? <Home /> : <Login />} />
+        <Route path="register" element={_isLogin ? <Home /> : <Register />} />
+        <Route path="/" element={_isLogin ? <Home /> : <Login />} />
+        <Route path="about" element={_isLogin ? <About /> : <Login />} />
+        <Route path="cart" element={_isLogin ? <Cart /> : <Login />} />
+        <Route path="*" element={_isLogin ? <NoMatch /> : <Login />} />
         <Route
           path="/book"
           element={
-            isLoggedIn && user.roleId === 2 ? (
+            _isLogin && _user.roleId === 2 ? (
               <Book />
-            ) : isLoggedIn && user.roleId === 3 ? (
+            ) : _isLogin && _user.roleId === 3 ? (
               <Home />
             ) : (
               <Login />

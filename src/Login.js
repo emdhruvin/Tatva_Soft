@@ -1,18 +1,38 @@
 import appStyle from "./AppStyle.module.css";
 import { Button, TextField } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import { Formik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import { useAuth } from "./AuthContext";
+// import { useAuth } from "./AuthContext";
 
 import { toast } from "react-toastify";
 import { useEffect } from "react";
+import { _setUser } from "./redux/store/slices/user";
+import { _setIsLogin } from "./redux/store/slices/checkLogin";
+import { _resetIsLogin } from "./redux/store/slices/checkLogin";
+import { _resetUser } from "./redux/store/slices/user";
 
 function Login() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { setIsLoggedIn, setUser } = useAuth();
+  // const { setIsLoggedIn, setUser } = useAuth();
+
+  const reduxSetUser = (userData) => {
+    dispatch(_setUser(userData));
+  };
+  const reduxSetLogin = () => {
+    dispatch(_setIsLogin());
+  };
+
+  const reduxResetUser = () => {
+    dispatch(_resetUser());
+  };
+  const reduxResetLogin = () => {
+    dispatch(_resetIsLogin());
+  };
 
   useEffect(() => {
     let data = JSON.parse(localStorage.getItem("loginInfo"));
@@ -55,8 +75,10 @@ function Login() {
       .then((res) => {
         console.log("login sub", res);
         if (res.data.code === 200) {
-          setIsLoggedIn(true);
-          setUser(res.data.result);
+          // setIsLoggedIn(true);
+          // setUser(res.data.result);
+          reduxSetUser(res.data.result);
+          reduxSetLogin();
           localStorage.setItem("loginInfo", JSON.stringify(res.data.result));
           localStorage.setItem("isLoggedIn", "true");
           toast.success("LoggedIn Successfully", {
@@ -100,8 +122,10 @@ function Login() {
           localStorage.removeItem("loginInfo");
           localStorage.removeItem("isLoggedIn");
         }
-        setUser(null);
-        setIsLoggedIn(false);
+        // setUser(null);
+        reduxResetUser();
+        // setIsLoggedIn(false);
+        reduxResetLogin();
       });
   };
 
@@ -163,6 +187,7 @@ function Login() {
                   </span>
                 )}
                 <TextField
+                  autoComplete="true"
                   error={!!errors.password}
                   id="password"
                   name="password"

@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useRef } from "react";
 import appStyle from "./AppStyle.module.css";
 import axios from "axios";
 import SingleBook from "./SingleBook";
@@ -15,6 +15,8 @@ import Textarea from "@mui/joy/Textarea";
 import { Formik } from "formik";
 
 const Book = () => {
+  const searchRef = useRef();
+
   const GET_ALL_BOOKS_END_POINT = "api/book/all";
   const DELETE_BOOK_END_POINT = "api/book?id=";
   const UPDATE_BOOK_END_POINT = "api/book";
@@ -237,6 +239,19 @@ const Book = () => {
           setAddBookDialog(false);
         }
       });
+  };
+  const handleSearch = () => {
+    const search = searchRef.current.value;
+    let arr = [...books];
+    if (search === "") {
+      setBooks(backup);
+    }
+    arr = books.filter((item) => {
+      if (item.name.toLowerCase().includes(search.toLowerCase())) {
+        return item;
+      }
+    });
+    setBooks(arr);
   };
   console.log("initial values", initialValues);
   useEffect(() => {
@@ -788,11 +803,11 @@ const Book = () => {
             }}
           >
             <input
-              name="cartSearch"
+              name="bookSearch"
               // value={searchRef.current.value}
               type="text"
               placeholder="Search"
-              //   ref={searchRef}
+              ref={searchRef}
               style={{
                 padding: ".5rem 1.5rem",
                 borderRadius: ".5rem",
@@ -801,7 +816,7 @@ const Book = () => {
                 fontWeight: "500",
               }}
               // onChange={(e) => {
-              //   setSearch(e.target.value.trim());
+              // setSearch(e.target.value.trim());
               // }}
             />
             <p
@@ -814,10 +829,10 @@ const Book = () => {
                 fontWeight: "bold",
                 cursor: "pointer",
               }}
-              //   onClick={() => {
-              //     setAddedBook(backup);
-              //     searchRef.current.value = "";
-              //   }}
+              onClick={() => {
+                setBooks(backup);
+                searchRef.current.value = "";
+              }}
             >
               ×
             </p>
@@ -834,7 +849,7 @@ const Book = () => {
               alignItems: "center",
               cursor: "pointer",
             }}
-            // onClick={handleSearch}
+            onClick={handleSearch}
           >
             <img
               src={`${process.env.REACT_APP_URL}search.png`}

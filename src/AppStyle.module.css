@@ -4,6 +4,8 @@
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
+  padding: 0 10rem;
+  gap: 1rem;
 }
 
 .mainDiv {
@@ -29,14 +31,36 @@
 }
 
 .navbarStyle li {
-  transition: all 0.15s ease;
+  flex: 1;
+  text-align: center;
+  position: relative;
+  transition: all 1s ease;
   z-index: 4;
   color: #eee;
   text-decoration: none;
   font-weight: bold;
 }
-.navbarStyle li:hover {
-  scale: 1.2;
+.navbarStyle li:hover::after {
+  /* scale: 1.2; */
+  width: 80%;
+  /* padding: 0 3rem; */
+}
+.navbarStyle li::after {
+  /* display: flex; */
+  left: 50%;
+  transform: translateX(-50%);
+  /* justify-content: center; */
+  content: "";
+  position: absolute;
+  /* padding: 0.3rem; */
+  width: 0%;
+  height: 0.3rem;
+  background-color: white;
+  /* left: 0; */
+  bottom: -0.5rem;
+  border-radius: 0.6rem;
+  transition: all 0.3s ease;
+  /* padding: 0 0rem; */
 }
 
 .containerDiv {

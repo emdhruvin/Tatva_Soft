@@ -7,15 +7,26 @@ import { useAuth } from "./AuthContext";
 import { Button, TextField } from "@mui/material";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { _setUser } from "./redux/store/slices/user";
 
 const Profile = () => {
   const UPDATE_USER_END_POINT = "api/user";
   const navigate = useNavigate();
-  const { user, setUser } = useAuth();
+  const { setUser } = useAuth();
+  const dispatch = useDispatch();
+  const _user = useSelector((state) => {
+    return state.users;
+  });
+
+  const reduxSetUser = (userData) => {
+    dispatch(_setUser(userData));
+  };
+
   const initialValues = {
-    firstName: user.firstName,
-    lastName: user.lastName,
-    email: user.email,
+    firstName: _user.firstName,
+    lastName: _user.lastName,
+    email: _user.email,
     newPassword: "",
     confPassword: "",
   };
@@ -23,12 +34,12 @@ const Profile = () => {
   const onProfileSubmit = async (values) => {
     console.log("profile", values);
     let requestedData = {
-      id: user.id,
+      id: _user.id,
       email: values.email,
       firstName: values.firstName,
       lastName: values.lastName,
-      roleId: user.roleId,
-      role: user.role,
+      roleId: _user.roleId,
+      role: _user.role,
       password: values.newPassword,
     };
     // console.log(requestedData);
@@ -40,7 +51,8 @@ const Profile = () => {
       .then((res) => {
         if (res.data.code === 200) {
           console.log("usr updated");
-          setUser(res.data.result);
+          // setUser(res.data.result);
+          reduxSetUser(res.data.result);
           localStorage.setItem("loginInfo", JSON.stringify(res.data.result));
           toast.success("User updated", {
             position: "top-right",
@@ -98,7 +110,6 @@ const Profile = () => {
             handleChange,
             handleSubmit,
             handleBlur,
-            isSubmitting,
           }) => (
             <form className={appStyle.profileForm} onSubmit={handleSubmit}>
               <div
@@ -217,6 +228,7 @@ const Profile = () => {
                 }}
               >
                 <TextField
+                  autoComplete="true"
                   error={!!errors.newPassword}
                   value={values.newPassword}
                   id="password"
@@ -252,6 +264,7 @@ const Profile = () => {
                 }}
               >
                 <TextField
+                  autoComplete="true"
                   error={!!errors.confPassword}
                   value={values.confPassword}
                   id="password"

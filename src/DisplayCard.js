@@ -1,15 +1,20 @@
 import React from "react";
 import "./displayCard.css";
 import axios from "axios";
-import { useAuth } from "./AuthContext";
+// import { useAuth } from "./AuthContext";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 const DisplayCard = ({ data, idx }) => {
-  const { user } = useAuth();
+  // const { user } = useAuth();
+  const _user = useSelector((state) => {
+    return state.users;
+  });
+
   const CART_POST_END_POINT = "api/cart";
 
   const handleAddCart = async (data) => {
-    const userId = user.id;
+    const userId = _user.id;
     const requestedData = {
       bookId: data.id,
       userId: userId,

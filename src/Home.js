@@ -3,12 +3,17 @@ import { useNavigate } from "react-router-dom";
 import appStyle from "./AppStyle.module.css";
 import { Button } from "@mui/material";
 import axios from "axios";
+// import { useSelector } from "react-redux";
 
 import DisplayCard from "./DisplayCard";
 function Home() {
+  // const users = useSelector((state) => {
+  //   return state.users;
+  // });
   const navigate = useNavigate();
   const [dData, setDData] = useState();
 
+  console.log(window.location.pathname);
   const ALL_BOOK_END_POINT = "api/book/all";
 
   const getData = async () => {
@@ -26,6 +31,7 @@ function Home() {
   useEffect(() => {
     getData();
   }, []);
+  // console.log(users);
   return (
     <div className={appStyle.containerDiv}>
       <h2 className={appStyle.heading}>Home</h2>

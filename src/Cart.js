@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import appStyle from "./AppStyle.module.css";
 import axios from "axios";
-import { useAuth } from "./AuthContext";
+// import { useAuth } from "./AuthContext";
 import SingleCartBook from "./SingleCartBook";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 function Cart() {
   const [addedBook, setAddedBook] = useState([]);
@@ -15,7 +16,11 @@ function Cart() {
   const CART_DELTE_END_POINT = "api/cart?id=";
   const CART_UPDATE_END_POINT = "api/cart";
   const CART_PLACE_ORDER_END_POINT = "api/order";
-  const { user } = useAuth();
+  // const { user } = useAuth();
+
+  const _user = useSelector((state) => {
+    return state.users;
+  });
 
   const handleDelete = async (itemId) => {
     let arr = [...addedBook];
@@ -54,7 +59,7 @@ function Cart() {
 
   const handleUpdate = async (id, bookId, quantity, sw) => {
     let arr = [...addedBook];
-    const userId = user.id;
+    const userId = _user.id;
     let requestedData = {};
 
     switch (sw) {
@@ -103,12 +108,14 @@ function Cart() {
           })
           .catch((err) => console.log(err));
         break;
+      default:
+        break;
     }
   };
 
   const handleOrder = async () => {
     setAddedBook(backup);
-    const userId = user.id;
+    const userId = _user.id;
     const cartIds = backup.map((item) => item.id);
     // console.log(cartId);
     const requestedData = {
@@ -140,7 +147,7 @@ function Cart() {
       .catch((err) => console.log(err));
   };
   const getData = async () => {
-    const userId = user.id;
+    const userId = _user.id;
     await axios
       .get(`https://book-e-sell-node-api.vercel.app/${CART_END_POINT}${userId}`)
       .then((res) => {
@@ -287,7 +294,6 @@ function Cart() {
             fontSize: "2rem",
           }}
         >
-          {" "}
           <p>Cart is Empty</p>
         </div>
       )}

@@ -1,18 +1,34 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import appStyle from "./AppStyle.module.css";
 import Avatar from "@mui/material/Avatar";
 import Popover from "@mui/material/Popover";
 import { Button } from "@mui/material";
-import { useAuth } from "./AuthContext";
+// import { useAuth } from "./AuthContext";
+import { useDispatch, useSelector } from "react-redux";
+import { _resetUser } from "./redux/store/slices/user";
+import { _resetIsLogin } from "./redux/store/slices/checkLogin";
 
 function Layout() {
+  const _user = useSelector((state) => {
+    return state.users;
+  });
+  const _isLogin = useSelector((state) => {
+    return state.isLogin;
+  });
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+  const reduxResetUser = () => {
+    dispatch(_resetUser());
+  };
+  const reduxResetLogin = () => {
+    dispatch(_resetIsLogin());
   };
 
   const open = Boolean(anchorEl);
@@ -20,10 +36,12 @@ function Layout() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const { isLoggedIn, setUser, user, setIsLoggedIn } = useAuth();
+  // console.log(_user);
+  // console.log(_isLogin);
+  // const { setUser, setIsLoggedIn } = useAuth();
   return (
     <>
-      {isLoggedIn ? (
+      {_isLogin ? (
         <div style={{ width: "100%" }}>
           <nav>
             <img
@@ -38,37 +56,40 @@ function Layout() {
             />
             <ul className={appStyle.navbarStyle}>
               <li>
-                <Link className={appStyle.link} to="/">
+                <NavLink className={appStyle.link} to="/">
                   Home
-                </Link>
+                </NavLink>
               </li>
-              {user.roleId === 2 ? (
+              {_user.roleId === 2 ? (
                 <li>
-                  <Link className={appStyle.link} to="/book">
+                  <NavLink className={appStyle.link} to="/book">
                     Book
-                  </Link>
+                  </NavLink>
                 </li>
               ) : (
                 <></>
               )}
               <li>
-                <Link className={appStyle.link} to="/cart">
+                <NavLink className={appStyle.link} to="/cart">
                   Cart
-                </Link>
+                </NavLink>
               </li>
               <li>
-                <Link className={appStyle.link} to="/profile">
+                <NavLink className={appStyle.link} to="/profile">
                   Update Profile
-                </Link>
+                </NavLink>
               </li>
             </ul>
             <div className={appStyle.profile} onClick={handleClick}>
               <Avatar sx={{ bgcolor: "white", color: "black" }}>{`${
-                user.firstName[0].toUpperCase() + user.lastName[0].toUpperCase()
+                _user.firstName[0].toUpperCase() +
+                _user.lastName[0].toUpperCase()
               }`}</Avatar>
               <p>{`${
-                user.firstName[0].toUpperCase() + user.firstName.slice(1)
-              } ${user.lastName[0].toUpperCase() + user.lastName.slice(1)}`}</p>
+                _user.firstName[0].toUpperCase() + _user.firstName.slice(1)
+              } ${
+                _user.lastName[0].toUpperCase() + _user.lastName.slice(1)
+              }`}</p>
             </div>
           </nav>
           <Popover
@@ -87,10 +108,13 @@ function Layout() {
             >
               <Button
                 onClick={() => {
-                  setUser(null);
-                  setIsLoggedIn(false);
+                  // setUser(null);
+                  reduxResetUser();
+                  // setIsLoggedIn(false);
+                  reduxResetLogin();
                   localStorage.removeItem("loginInfo");
                   localStorage.removeItem("isLoggedIn");
+                  setAnchorEl(null);
                   navigate("/login");
                 }}
                 variant="contained"
@@ -116,14 +140,14 @@ function Layout() {
             />
             <ul className={appStyle.navbarStyle}>
               <li>
-                <Link className={appStyle.link} to="/login">
-                  Login{" "}
-                </Link>
+                <NavLink className={appStyle.link} to="/login">
+                  Login
+                </NavLink>
               </li>
               <li>
-                <Link className={appStyle.link} to="/register">
+                <NavLink className={appStyle.link} to="/register">
                   Register
-                </Link>
+                </NavLink>
               </li>
             </ul>
           </nav>

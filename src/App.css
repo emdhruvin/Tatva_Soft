@@ -18,3 +18,10 @@ button:hover {
   position: relative;
   z-index: 4;
 } */
+.active {
+  width: 80%;
+  color: #282c34 !important;
+  padding: 0.5rem 2rem;
+  background-color: white;
+  border-radius: 0.6rem;
+}
